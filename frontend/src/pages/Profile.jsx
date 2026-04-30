@@ -24,7 +24,7 @@ export default function Profile() {
     setNameLoading(true);
     try {
       const res = await client.put("/auth/profile", { name: nameForm.name });
-      setUser(res.data); // ✅ update context immediately
+      setUser(res.data); 
       setNameMsg({ text: "Name updated successfully!", error: false });
     } catch (err) {
       setNameMsg({ text: err.response?.data?.error || "Failed to update name", error: true });
@@ -65,7 +65,6 @@ export default function Profile() {
         <h1>Profile Settings</h1>
       </div>
 
-      {/* ✅ Added wrapper */}
       <div style={{ maxWidth: 960 }}>
         <div
           style={{
