@@ -2,12 +2,6 @@
 
 A full-stack project management application with role-based access control, task tracking, and team collaboration features.
 
-## Live Demo
-🔗 [your-app.up.railway.app](https://your-app.up.railway.app)
-
-## Demo Video
-🎥 [Watch Demo](https://your-video-link.com)
-
 ## Features
 
 - **Authentication** — Secure signup/login with JWT tokens
