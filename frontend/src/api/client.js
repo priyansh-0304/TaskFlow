@@ -35,6 +35,7 @@ export const projects = {
   delete: (id) => client.delete(`/projects/${id}`),
   addMember: (id, data) => client.post(`/projects/${id}/members`, data),
   removeMember: (id, userId) => client.delete(`/projects/${id}/members/${userId}`),
+  updateMemberRole: (projectId, userId, role) => client.put(`/projects/${projectId}/members/${userId}/role`, { role }),
 };
 
 export const tasks = {

@@ -1,6 +1,7 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const helmet = require("helmet");
 const { PrismaClient } = require("@prisma/client");
 
 const authRoutes = require("./routes/auth");
@@ -15,11 +16,28 @@ app.use(cors({
   credentials: true,
 }));
 app.use(express.json());
+app.use(helmet());
+
+const rateLimit = require("express-rate-limit");
+
+// Auth routes — strict limit
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100,
+  message: { error: "Too many attempts, please try again after 15 minutes" }
+});
+
+// General API limit
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: { error: "Too many requests, slow down" }
+});
 
 // Routes
-app.use("/api/auth", authRoutes);
-app.use("/api/projects", projectRoutes);
-app.use("/api/tasks", taskRoutes);
+app.use("/api/auth", authLimiter, authRoutes);
+app.use("/api/projects", apiLimiter, projectRoutes);
+app.use("/api/tasks", apiLimiter, taskRoutes);
 
 // Health check
 app.get("/api/health", (req, res) => {

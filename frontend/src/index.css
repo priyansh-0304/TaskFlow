@@ -178,7 +178,7 @@ button {
 
 /* Stat cards */
 .stat-card { text-align: center; }
-.stat-card .stat-num { font-family: "Syne", sans-serif; font-size: 36px; font-weight: 800; }
+.stat-card .stat-num { font-family: "DM Sans", sans-serif; font-size: 36px; font-weight: 800; }
 .stat-card .stat-label { color: var(--muted); font-size: 13px; margin-top: 4px; }
 
 /* Task list */

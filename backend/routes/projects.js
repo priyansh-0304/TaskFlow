@@ -138,4 +138,30 @@ router.put("/:projectId/members/:userId/role", requireProjectAdmin, async (req, 
   res.json(updated);
 });
 
+// PUT /api/projects/:projectId/members/:userId/role
+router.put("/:projectId/members/:userId/role", requireProjectAdmin, [
+  body("role").isIn(["ADMIN", "MEMBER"]).withMessage("Role must be ADMIN or MEMBER"),
+], async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) return res.status(400).json({ errors: errors.array() });
+
+    if (req.params.userId === req.user.id) {
+      return res.status(400).json({ error: "Cannot change your own role" });
+    }
+
+    const membership = await prisma.projectMember.findUnique({
+      where: { userId_projectId: { userId: req.params.userId, projectId: req.params.projectId } }
+    });
+    if (!membership) return res.status(404).json({ error: "Member not found" });
+
+    const updated = await prisma.projectMember.update({
+      where: { userId_projectId: { userId: req.params.userId, projectId: req.params.projectId } },
+      data: { role: req.body.role },
+      include: { user: { select: { id: true, name: true, email: true } } }
+    });
+    res.json(updated);
+  } catch (err) { next(err); }
+});
+
 module.exports = router;
