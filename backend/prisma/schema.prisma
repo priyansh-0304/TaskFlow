@@ -15,10 +15,11 @@ model User {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  memberships ProjectMember[]
-  assignedTasks Task[]        @relation("AssignedTasks")
-  createdTasks  Task[]        @relation("CreatedTasks")
+  memberships     ProjectMember[]
+  assignedTasks   Task[]          @relation("AssignedTasks")
+  createdTasks    Task[]          @relation("CreatedTasks")
   createdProjects Project[]
+  comments        Comment[]       @relation("CommentAuthor")
 }
 
 model Project {
@@ -36,9 +37,9 @@ model Project {
 }
 
 model ProjectMember {
-  id        String   @id @default(cuid())
-  role      Role     @default(MEMBER)
-  joinedAt  DateTime @default(now())
+  id       String   @id @default(cuid())
+  role     Role     @default(MEMBER)
+  joinedAt DateTime @default(now())
 
   user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
@@ -67,6 +68,21 @@ model Task {
 
   createdBy   User   @relation("CreatedTasks", fields: [createdById], references: [id])
   createdById String
+
+  comments    Comment[]
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  task      Task   @relation(fields: [taskId], references: [id], onDelete: Cascade)
+  taskId    String
+
+  author    User   @relation("CommentAuthor", fields: [authorId], references: [id])
+  authorId  String
 }
 
 enum Role {
@@ -86,14 +102,4 @@ enum Priority {
   MEDIUM
   HIGH
   URGENT
-}
-
-model Comment {
-  id        String   @id @default(cuid())
-  content   String
-  createdAt DateTime @default(now())
-  task      Task     @relation(fields: [taskId], references: [id], onDelete: Cascade)
-  taskId    String
-  author    User     @relation(fields: [authorId], references: [id])
-  authorId  String
 }
