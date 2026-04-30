@@ -159,20 +159,37 @@ npm run dev
 
 Visit **http://localhost:5173**
 
-## Deployment (Railway)
+## Deployment
 
-### Backend Service
-- Root: `/backend`
+### Backend (Render)
+- Platform: [Render](https://render.com)
+- Root Directory: `backend`
 - Build Command: `npm install && npx prisma generate && npx prisma db push`
 - Start Command: `npm start`
-- Add PostgreSQL plugin
-- Environment variables: `JWT_SECRET`, `FRONTEND_URL`
+- Add a PostgreSQL database service on Render
+- Environment variables:
 
-### Frontend Service
-- Root: `/frontend`
-- Build Command: `npm install && npm run build`
-- Start Command: `npx vite preview --port $PORT --host`
-- Environment variable: `VITE_API_URL=https://your-backend.up.railway.app`
+| Variable | Value |
+|----------|-------|
+| DATABASE_URL | Render PostgreSQL external URL |
+| JWT_SECRET | Your secret key |
+| FRONTEND_URL | Your Vercel frontend URL |
+| NODE_ENV | production |
+
+### Frontend (Vercel)
+- Platform: [Vercel](https://vercel.com)
+- Root Directory: `frontend`
+- Framework: Vite (auto-detected)
+- Build Command: `npm run build`
+- Environment variable:
+
+| Variable | Value |
+|----------|-------|
+| VITE_API_URL | Your Render backend URL |
+
+### Live URLs
+- **Frontend:** https://task-flow-kwudub1v7-priyansh-0304s-projects.vercel.app
+- **Backend:** https://taskflow-backend-i1rh.onrender.com
 
 ## Environment Variables
 
@@ -181,8 +198,9 @@ Visit **http://localhost:5173**
 |----------|-------------|
 | DATABASE_URL | PostgreSQL connection string |
 | JWT_SECRET | Secret key for JWT signing |
-| PORT | Server port (default 4000) |
+| PORT | Server port (auto-set by Render) |
 | FRONTEND_URL | Frontend URL for CORS |
+| NODE_ENV | Set to `production` |
 
 ### Frontend
 | Variable | Description |
