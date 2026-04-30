@@ -39,29 +39,32 @@ A full-stack project management application with role-based access control, task
 - date-fns for date formatting
 
 ## Project Structure
+
+```
 project-manager/
 ├── backend/
-│   ├── server.js           # Express app entry point
+│   ├── server.js
 │   ├── prisma/
-│   │   └── schema.prisma   # Database schema
+│   │   └── schema.prisma
 │   ├── middleware/
-│   │   └── auth.js         # JWT auth + RBAC middleware
+│   │   └── auth.js
 │   └── routes/
-│       ├── auth.js         # Signup, Login, Profile
-│       ├── projects.js     # Project + member management
-│       └── tasks.js        # Task CRUD + dashboard stats
+│       ├── auth.js
+│       ├── projects.js
+│       └── tasks.js
 └── frontend/
-└── src/
-├── context/
-│   └── AuthContext.jsx   # Global auth state
-├── api/
-│   └── client.js         # Axios API wrapper
-└── pages/
-├── Dashboard.jsx     # Stats + my tasks
-├── Projects.jsx      # Project list
-├── ProjectDetail.jsx # Kanban board + team
-├── Analytics.jsx     # Charts
-└── Profile.jsx       # Account settings
+    └── src/
+        ├── context/
+        │   └── AuthContext.jsx
+        ├── api/
+        │   └── client.js
+        └── pages/
+            ├── Dashboard.jsx
+            ├── Projects.jsx
+            ├── ProjectDetail.jsx
+            ├── Analytics.jsx
+            └── Profile.jsx
+```
 
 ## API Endpoints
 
